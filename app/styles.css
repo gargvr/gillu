@@ -57,6 +57,8 @@ h2 { font-size: 20px; font-weight: 600 }
 .chips { display: flex; flex-wrap: wrap; gap: 8px }
 .chip { min-height: 48px; min-width: 56px; padding: 8px 16px; border-radius: 24px; border: 2px solid var(--line); background: var(--surface); font-weight: 700 }
 .chip[aria-pressed="true"] { border-color: var(--hero); background: var(--hero-soft) }
+.field { min-height: 52px; border-radius: 12px; border: 2px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; padding: 8px 16px; width: 100% }
+.field:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px }
 .gmark { width: 24px; height: 24px; flex: none }
 
 /* top bars */

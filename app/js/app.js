@@ -186,10 +186,23 @@
         ${devServer && !sb ? '<button class="btn outline" id="dev" lang="en">Tester sign-in (this computer only)</button>' : ""}
         <p class="small muted" style="text-align:center">${esc(t("signin_note"))}</p>
         <button class="btn text" id="chlang">${esc(t("language"))}</button>
+        ${sb ? `<button class="btn text small" id="rev" lang="en">App reviewer sign-in</button>
+        <form class="stack" id="revform" hidden>
+          <input class="field" id="rev-email" type="email" autocomplete="username" placeholder="Reviewer email" aria-label="Reviewer email" required>
+          <input class="field" id="rev-pass" type="password" autocomplete="current-password" placeholder="Password" aria-label="Password" required>
+          <button class="btn outline" type="submit">Sign in</button>
+        </form>` : ""}
       </div>`, "center");
     on(s, "#google", googleSignIn);
     on(s, "#dev", () => { save("gillu.dev", true); route(); });
     on(s, "#chlang", () => back());
+    on(s, "#rev", (b) => { b.hidden = true; s.querySelector("#revform").hidden = false; s.querySelector("#rev-email").focus(); });
+    const form = s.querySelector("#revform");                 // store reviewers cannot use their own Google account, so they get a test login
+    if (form) form.addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      const { error } = await sb.auth.signInWithPassword({ email: s.querySelector("#rev-email").value.trim(), password: s.querySelector("#rev-pass").value });
+      if (error) toast("Wrong email or password"); else route();
+    });
   }
 
   function classChips(sel) {
